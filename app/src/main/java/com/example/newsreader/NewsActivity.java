@@ -8,7 +8,9 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
@@ -28,6 +30,7 @@ public class NewsActivity extends AppCompatActivity {
     public static String SOURCES_URL = "https://newsapi.org/v2/sources?apiKey="+API_KEY;
     public static String TOP_HEADLINES_URL = "https://newsapi.org/v2/top-headlines";
 
+    ProgressBar progressBar ;
     Source chosen_source ;
     String fetchURL;
     List<News> newsList;
@@ -39,6 +42,7 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
+        //progressBar = findViewById(R.id.progressBar);
         newsList = new ArrayList();
         newsListView = findViewById(R.id.listView_newsList);
 
@@ -47,6 +51,7 @@ public class NewsActivity extends AppCompatActivity {
         if(getIntent().getExtras()!=null){
             chosen_source = (Source)getIntent().getExtras().getSerializable(CHOSEN_SOURCE);
             fetchURL = TOP_HEADLINES_URL+"?sources="+chosen_source.id+"&apiKey="+API_KEY;
+            setTitle(chosen_source.name);
 
         }
 
@@ -80,6 +85,12 @@ public class NewsActivity extends AppCompatActivity {
             Log.d("Demo , in postExecute" , "before");
            //newsList.addAll(newsArrayListReceived)  ;
             Log.d("Demo , in postExecute" , newsList+"");
+           // progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected void onPreExecute() {
+         //   progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override

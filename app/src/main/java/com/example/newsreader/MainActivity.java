@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         if(isConnected()){
             try {
                 sourceArrayList = new GetSourceListAsyncTask().execute(SOURCES_URL).get();
+
               //  Log.d("Demo , in main thread" , sourceArrayList+"");
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private class GetSourceListAsyncTask extends AsyncTask<String, Void, ArrayList<Source>> {
 
         @Override
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Demo , in postExecute" , "before");
          //   sourceArrayList.addAll(sourceArrayListReceived)  ;
            // Log.d("Demo , in postExecute" , sourceArrayList+"");
+            progressBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -139,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
             }
             return sourceArrayList;
 
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
         }
 
     }
