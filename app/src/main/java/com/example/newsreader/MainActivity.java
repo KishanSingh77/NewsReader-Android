@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressBar progressBar ;
     ListView listView;
-    ArrayList<Source> sourceArrayList    ;
-    ArrayList<String> sourceNameArrayList    ;
+    ArrayList<Source> sourceArrayList;
+    ArrayList<String> sourceNameArrayList;
     public static String API_KEY = "32e51c6db6df444fa6f6d9bc658f971f";
     public static String SOURCES_URL = "https://newsapi.org/v2/sources?apiKey="+API_KEY;
     public static String TOP_HEADLINES_URL = "https://newsapi.org/v2/top-headlines";
@@ -44,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         sourceArrayList = new ArrayList<>();
         sourceNameArrayList = new ArrayList<>();
+        //progressBar.setVisibility(ProgressBar.VISIBLE);
 
 
         if(isConnected()){
             try {
                 sourceArrayList = new GetSourceListAsyncTask().execute(SOURCES_URL).get();
+
 
               //  Log.d("Demo , in main thread" , sourceArrayList+"");
             } catch (ExecutionException e) {
@@ -93,8 +95,18 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Source> sourceArrayListReceived) {
             Log.d("Demo , in postExecute" , "before");
          //   sourceArrayList.addAll(sourceArrayListReceived)  ;
-           // Log.d("Demo , in postExecute" , sourceArrayList+"");
+            Log.d("Demo , in postExecute" , sourceArrayList+"");
+//            for(int i=0;i<100;i++){
+//                for (int j=0;j<1000000;j++){
+//
+//                }
+//            }
             progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
         }
 
         @Override
@@ -145,10 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        @Override
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-        }
+
 
     }
 

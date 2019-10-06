@@ -3,12 +3,15 @@ package com.example.newsreader;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -41,12 +44,10 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-
-        //progressBar = findViewById(R.id.progressBar);
         newsList = new ArrayList();
         newsListView = findViewById(R.id.listView_newsList);
 
-
+        progressBar=findViewById(R.id.progressBar2);
         //fetch from intent
         if(getIntent().getExtras()!=null){
             chosen_source = (Source)getIntent().getExtras().getSerializable(CHOSEN_SOURCE);
@@ -74,7 +75,14 @@ public class NewsActivity extends AppCompatActivity {
 
         newsListView.setAdapter(newsNewsAdapter);
 
-
+        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(NewsActivity.this, WebViewActivity.class);
+                intent.putExtra("url", newsList.get(position).url);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -85,12 +93,14 @@ public class NewsActivity extends AppCompatActivity {
             Log.d("Demo , in postExecute" , "before");
            //newsList.addAll(newsArrayListReceived)  ;
             Log.d("Demo , in postExecute" , newsList+"");
-           // progressBar.setVisibility(View.INVISIBLE);
+
+
+
         }
 
         @Override
         protected void onPreExecute() {
-         //   progressBar.setVisibility(View.VISIBLE);
+
         }
 
         @Override
@@ -126,6 +136,7 @@ public class NewsActivity extends AppCompatActivity {
                     }
 
                 }
+
 
             }
             catch (Exception e)

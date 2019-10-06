@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+//import com.example.newsreader.News;
+
 
 public class NewsAdapter extends ArrayAdapter<News> {
 
