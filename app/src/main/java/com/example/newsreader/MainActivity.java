@@ -101,6 +101,16 @@ public class MainActivity extends AppCompatActivity {
 
             listView.setAdapter(sourceArrayAdapter);
 
+            int sum = 0 ;
+            for (int i = 0; i <100; i++) {
+
+                for (int j = 0; j <1000000 ; j++) {
+
+                }sum+=i;
+                //dummy work so you can see the progress bar
+            }
+            progressBar.setVisibility(View.INVISIBLE);
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,14 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            int sum = 0 ;
-            for (int i = 0; i <100; i++) {
 
-                for (int j = 0; j <1000000 ; j++) {
-
-                }sum+=i; //dummy work so you can see the progress bar
-            }
-             progressBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
