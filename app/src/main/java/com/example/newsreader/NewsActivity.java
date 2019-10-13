@@ -91,7 +91,14 @@ public class NewsActivity extends AppCompatActivity {
             newsList.addAll(newsArrayListReceived)  ;
             Log.d("Demo , in postExecute" , newsList+"");
 
-            progressBar.setVisibility(View.INVISIBLE);
+            int sum = 0 ;
+            for (int i = 0; i <100; i++) {
+
+                for (int j = 0; j <1000000 ; j++) {
+
+                }sum+=i;   //dummy work so you can see the progress bar
+            }
+             progressBar.setVisibility(View.INVISIBLE);
 
             newsNewsAdapter = new NewsAdapter(NewsActivity.this ,R.layout.news_item , newsList );
 

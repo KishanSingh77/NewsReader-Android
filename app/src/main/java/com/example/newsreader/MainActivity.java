@@ -111,7 +111,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            progressBar.setVisibility(View.INVISIBLE);
+            int sum = 0 ;
+            for (int i = 0; i <100; i++) {
+
+                for (int j = 0; j <1000000 ; j++) {
+
+                }sum+=i; //dummy work so you can see the progress bar
+            }
+             progressBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
