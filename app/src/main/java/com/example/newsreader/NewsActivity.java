@@ -58,13 +58,9 @@ public class NewsActivity extends AppCompatActivity {
 
         //hit the news API
         if(isConnected()){
-            try {
-                newsList =  new GetNewsListAsyncTask().execute(fetchURL).get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+                 new GetNewsListAsyncTask().execute(fetchURL);
+
         }else{
             Toast.makeText(this, "Error, not connected", Toast.LENGTH_SHORT).show();
             return;
@@ -72,18 +68,18 @@ public class NewsActivity extends AppCompatActivity {
 
         Log.d("Demo,news main thread" , newsList+"");
 
-          newsNewsAdapter = new NewsAdapter(this ,R.layout.news_item , newsList );
-
-        newsListView.setAdapter(newsNewsAdapter);
-
-        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(NewsActivity.this, WebViewActivity.class);
-                intent.putExtra("url", newsList.get(position).url);
-                startActivity(intent);
-            }
-        });
+//        newsNewsAdapter = new NewsAdapter(this ,R.layout.news_item , newsList );
+//
+//        newsListView.setAdapter(newsNewsAdapter);
+//
+//        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent=new Intent(NewsActivity.this, WebViewActivity.class);
+//                intent.putExtra("url", newsList.get(position).url);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 
@@ -92,16 +88,30 @@ public class NewsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<News> newsArrayListReceived) {
             Log.d("Demo , in postExecute" , "before");
-           //newsList.addAll(newsArrayListReceived)  ;
+            newsList.addAll(newsArrayListReceived)  ;
             Log.d("Demo , in postExecute" , newsList+"");
 
+            progressBar.setVisibility(View.INVISIBLE);
+
+            newsNewsAdapter = new NewsAdapter(NewsActivity.this ,R.layout.news_item , newsList );
+
+            newsListView.setAdapter(newsNewsAdapter);
+
+            newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent=new Intent(NewsActivity.this, WebViewActivity.class);
+                    intent.putExtra("url", newsList.get(position).url);
+                    startActivity(intent);
+                }
+            });
 
 
         }
 
         @Override
         protected void onPreExecute() {
-
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override

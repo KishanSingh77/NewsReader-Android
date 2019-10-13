@@ -44,20 +44,13 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         sourceArrayList = new ArrayList<>();
         sourceNameArrayList = new ArrayList<>();
-        //progressBar.setVisibility(ProgressBar.VISIBLE);
+        //progressBar.setVisibility(ProgressBar.INVISIBLE);
 
 
         if(isConnected()){
-            try {
-                sourceArrayList = new GetSourceListAsyncTask().execute(SOURCES_URL).get();
 
+                new GetSourceListAsyncTask().execute(SOURCES_URL);
 
-              //  Log.d("Demo , in main thread" , sourceArrayList+"");
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
         }else{
             Toast.makeText(this, "Error, not connected", Toast.LENGTH_SHORT).show();
@@ -70,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             sourceNameArrayList.add(source.name);
         }
 
-        ArrayAdapter<String> sourceArrayAdapter = new ArrayAdapter<>(this ,  android.R.layout.simple_list_item_1 , sourceNameArrayList);
+        ArrayAdapter<String> sourceArrayAdapter = new ArrayAdapter(this ,  android.R.layout.simple_list_item_1 , sourceNameArrayList);
 
         listView.setAdapter(sourceArrayAdapter);
 
@@ -95,19 +88,35 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Source> sourceArrayListReceived) {
             Log.d("Demo , in postExecute" , "before");
-         //   sourceArrayList.addAll(sourceArrayListReceived)  ;
+          sourceArrayList.addAll(sourceArrayListReceived)  ;
             Log.d("Demo , in postExecute" , sourceArrayList+"");
-//            for(int i=0;i<100;i++){
-//                for (int j=0;j<1000000;j++){
-//
-//                }
-//            }
+
+            //copy just the names to display in listview
+
+            for(Source source : sourceArrayList){
+                sourceNameArrayList.add(source.name);
+            }
+
+            ArrayAdapter<String> sourceArrayAdapter = new ArrayAdapter(MainActivity.this ,  android.R.layout.simple_list_item_1 , sourceNameArrayList);
+
+            listView.setAdapter(sourceArrayAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent=new Intent(MainActivity.this, NewsActivity.class);
+                    Source clickedSource = sourceArrayList.get(position);
+                    Log.d("Demo chosen==> " , clickedSource+"");
+                    intent.putExtra(CHOSEN_SOURCE,clickedSource);
+                    startActivity(intent);
+                }
+            });
             progressBar.setVisibility(View.INVISIBLE);
         }
 
         @Override
         protected void onPreExecute() {
-
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -154,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+
             return sourceArrayList;
 
         }
