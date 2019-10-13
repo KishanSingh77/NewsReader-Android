@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         }else{
             Toast.makeText(this, "Error, not connected", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         //copy just the names to display in listview

@@ -50,7 +50,9 @@ public class NewsAdapter extends ArrayAdapter<News> {
         viewHolder. tv_title.setText(news.title);
         viewHolder.tv_author.setText(news.author);
         viewHolder.tv_date.setText(news.publishedAt.split("T")[0]);
-        Picasso.get().load(news.urlToImage).into(viewHolder.iv_image);
+        if(news.urlToImage.isEmpty())
+            Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5oEe0tKKlkI9DCEHnbtFeIU1qMmwAzgcza8Nm_t4aRS5u4ZeCYA").into(viewHolder.iv_image);
+        else Picasso.get().load(news.urlToImage).into(viewHolder.iv_image);
 
 
         return convertView ;

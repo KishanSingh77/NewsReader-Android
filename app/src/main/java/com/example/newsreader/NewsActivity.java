@@ -67,6 +67,7 @@ public class NewsActivity extends AppCompatActivity {
             }
         }else{
             Toast.makeText(this, "Error, not connected", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         Log.d("Demo,news main thread" , newsList+"");
